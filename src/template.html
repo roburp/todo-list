@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+  </head>
+  <body>
+    <header>
+      <h1>Todo List</h1>
+    </header>
+    <aside class="sidebar">
+      <h2>Projects</h2>
+      <button id="new-project">New Project</button>
+
+      <dialog id="project-dialog">
+        <form id="project-form">
+          <label for="project-name">Project Name:</label>
+          <input type="text" id="project-name" name="project-name" required />
+
+          <menu>
+            <button type="button" id="cancel-btn">Cancel</button>
+            <button type="submit" id="add-btn">Add</button>
+          </menu>
+        </form>
+      </dialog>
+
+      <ul>
+        <li>Project 1</li>
+        <li>Project 2</li>
+        <li>Project 3</li>
+      </ul>
+    </aside>
+    <div class="todo-cards">
+      <button>Add Todo</button>
+      <div class="todo-cards-container"></div>
+    </div>
+  </body>
+</html>
