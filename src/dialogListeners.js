@@ -13,6 +13,23 @@ export function setupProjectDialogListeners() {
     form.reset();
     dialog.close();
   });
+
+  submit.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const projectNameField = document.querySelector("#project-name");
+    const projectNameInput = document.querySelector("#project-name").value.trim();
+
+    if (!projectNameInput) {
+      alert("Please enter a project name.");
+      projectNameField.focus();
+      projectNameField.select();
+      return;
+    }
+
+    form.reset();
+    dialog.close();
+  });
 }
 
 export function setupTodoDialogListeners() {
