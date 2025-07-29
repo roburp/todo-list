@@ -1,7 +1,7 @@
 import { format, isToday, isTomorrow, isThisWeek, isPast } from "date-fns";
 
 export default class Todo {
-  constructor(title, description, dueDate, priority, projectId, completed = false) {
+  constructor(title, description, dueDate, priority, completed = false) {
     this.id = Date.now().toString();
     this.title = title;
     this.description = description;

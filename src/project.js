@@ -23,11 +23,11 @@ export default class Project {
   }
 
   getTodo(todoId) {
-    return this.todos.find((todo) => (todo.id = todoId));
+    return this.todos.find((todo) => todo.id == todoId);
   }
 
   updateTodo(todoId, updates) {
-    const todo = getTodo(todoId);
+    const todo = this.getTodo(todoId);
     if (todo) {
       todo.update(updates);
       return true;
