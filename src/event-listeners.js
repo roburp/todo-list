@@ -1,4 +1,6 @@
-export function setupProjectDialogListeners() {
+import { renderProjects, renderTodos } from "./render";
+
+export function setupProjectDialogListeners(app) {
   const newProjBtn = document.querySelector("#new-project");
   const dialog = document.querySelector("#project-dialog");
   const form = document.querySelector("#project-form");
@@ -12,6 +14,13 @@ export function setupProjectDialogListeners() {
   cancel.addEventListener("click", () => {
     form.reset();
     dialog.close();
+  });
+
+  dialog.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      form.reset();
+      dialog.close();
+    }
   });
 
   submit.addEventListener("click", (e) => {
@@ -28,14 +37,15 @@ export function setupProjectDialogListeners() {
       return;
     }
 
-    //add project!!
+    app.addProject(projectName);
+    renderProjects(app);
 
     form.reset();
     dialog.close();
   });
 }
 
-export function setupTodoDialogListeners() {
+export function setupTodoDialogListeners(app) {
   const newTodoBtn = document.querySelector("#new-todo");
   const dialog = document.querySelector("#todo-dialog");
   const form = document.querySelector("#todo-form");
@@ -43,13 +53,19 @@ export function setupTodoDialogListeners() {
   const submit = document.querySelector("#todo-add-btn");
 
   newTodoBtn.addEventListener("click", () => {
-    const dialog = document.querySelector("#todo-dialog");
     dialog.showModal();
   });
 
   cancel.addEventListener("click", () => {
     form.reset();
     dialog.close();
+  });
+
+  dialog.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      form.reset();
+      dialog.close();
+    }
   });
 
   submit.addEventListener("click", (e) => {
@@ -62,9 +78,9 @@ export function setupTodoDialogListeners() {
     //const priorityField = document.querySelector("#todo-priority");
 
     const title = document.querySelector("#todo-title").value.trim();
-    //const description = document.querySelector("#todo-description").value.trim();
+    const description = document.querySelector("#todo-description").value.trim();
     const dueDate = new Date(document.querySelector("#todo-due-date").value);
-    //const priority = document.querySelector("#todo-priority").value;
+    const priority = document.querySelector("#todo-priority").value;
 
     if (!title) {
       alert("Please enter a todo title.");
@@ -87,9 +103,43 @@ export function setupTodoDialogListeners() {
       return;
     }
 
-    //add todo!!
+    app.addTodo({ title, description, dueDate, priority, completed: false });
+    renderTodos(app);
 
     form.reset();
     dialog.close();
+  });
+}
+
+export function setupProjectItemListeners(li, app) {
+  const projectId = li.dataset.projectId;
+
+  li.addEventListener("click", (e) => {
+    // prevent triggering if clicked on rename or delete buttons
+    if (e.target.closest(".rename-btn") || e.target.closest(".delete-btn")) return;
+
+    app.setActiveProject(projectId);
+    renderTodos(app);
+  });
+
+  const renameBtn = li.querySelector(".rename-btn");
+  const deleteBtn = li.querySelector(".delete-btn");
+
+  renameBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    // your rename logic here
+    const newName = prompt("Enter new project name:");
+    if (newName) {
+      app.updateProject(projectId, newName);
+      renderProjects(app); // re-render after rename
+    }
+  });
+
+  deleteBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (confirm("Delete this project?")) {
+      app.deleteProject(projectId);
+      renderProjects(app); // re-render after deletion
+    }
   });
 }

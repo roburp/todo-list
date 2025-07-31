@@ -1,7 +1,7 @@
 import Todo from "./todo.js";
 import Project from "./project.js";
 
-class todoApp {
+export default class todoApp {
   constructor() {
     this.projects = [];
     this.activeProjectId = null;
@@ -12,7 +12,15 @@ class todoApp {
     this.projects.push(project);
   }
 
-  removeProject(projectId) {
+  updateProject(projectId, { name } = {}) {
+    const project = this.getProject(projectId);
+    if (project) {
+      if (name !== undefined) project.name = name;
+      return true;
+    } else return false;
+  }
+
+  deleteProject(projectId) {
     this.projects = this.projects.filter((project) => project.id !== projectId);
   }
 
@@ -32,20 +40,13 @@ class todoApp {
     return this.projects;
   }
 
-  updateProject(projectId, { name } = {}) {
-    const project = this.getProject(projectId);
-    if (project) {
-      if (project.name !== undefined) project.name = name;
-      return true;
-    } else return false;
-  }
-
   addTodo({ title, description, dueDate, priority, completed = false } = {}) {
     const project = this.getActiveProject();
     if (!project) return false;
 
     const todo = new Todo(title, description, dueDate, priority, completed);
     project.addTodo(todo);
+    return todo;
   }
 
   updateTodo(todoId, updates) {
@@ -58,6 +59,8 @@ class todoApp {
 
   toggleCompleteTodo(todoId) {
     const project = this.getActiveProject();
+    if (!project) return false;
+
     const todo = project.getTodo(todoId);
     if (todo) {
       todo.toggleComplete();
@@ -67,6 +70,15 @@ class todoApp {
 
   deleteTodo(todoId) {
     const project = this.getActiveProject();
-    project.deleteTodo(todoId);
+    if (!project) return false;
+
+    return project.deleteTodo(todoId);
+  }
+
+  getActiveTodos() {
+    const project = this.getActiveProject();
+    if (!project) return false;
+
+    return project ? project.todos : [];
   }
 }

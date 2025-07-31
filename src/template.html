@@ -10,7 +10,7 @@
       <h1>Todo List</h1>
     </header>
     <aside class="sidebar">
-      <h2>Projects</h2>
+      <h3>Projects</h3>
       <button id="new-project">New Project</button>
 
       <dialog id="project-dialog">
@@ -25,37 +25,43 @@
         </form>
       </dialog>
 
-      <ul>
+      <ul id="project-list">
         <li>Project 1</li>
       </ul>
     </aside>
-    <div class="todo-cards">
-      <button id="new-todo">Add Todo</button>
+    <main>
+      <h2 id="project-title"></h2>
+      <div class="todo-cards">
+        <button id="new-todo">Add Todo</button>
 
-      <dialog id="todo-dialog">
-        <form id="todo-form">
-          <label for="todo-title">Title:</label>
-          <input type="text" id="todo-title" name="todo-title" required />
+        <dialog id="todo-dialog">
+          <form id="todo-form">
+            <label for="todo-title">Title:</label>
+            <input type="text" id="todo-title" name="todo-title" required />
 
-          <label for="todo-description">Description:</label>
-          <input type="text" id="todo-description" name="todo-description" />
+            <label for="todo-description">Description:</label>
+            <input type="text" id="todo-description" name="todo-description" />
 
-          <label for="todo-due-date">Due Date:</label>
-          <input type="date" id="todo-due-date" name="todo-due-date" required />
+            <label for="todo-due-date">Due Date:</label>
+            <input type="date" id="todo-due-date" name="todo-due-date" required />
 
-          <label for="todo-priority">Priority:</label>
-          <select id="todo-priority" name="todo-priority">
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-          </select>
-          <menu>
-            <button type="button" id="todo-cancel-btn">Cancel</button>
-            <button type="submit" id="todo-add-btn">Add</button>
-          </menu>
-        </form>
-      </dialog>
-      <div class="todo-cards-container"></div>
-    </div>
+            <label for="todo-priority">Priority:</label>
+            <select id="todo-priority" name="todo-priority">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+            <menu>
+              <button type="button" id="todo-cancel-btn">Cancel</button>
+              <button type="submit" id="todo-add-btn">Add</button>
+            </menu>
+          </form>
+        </dialog>
+
+        <ul id="todo-list">
+          <li>Todo 1</li>
+        </ul>
+      </div>
+    </main>
   </body>
 </html>
