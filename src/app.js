@@ -41,11 +41,11 @@ class todoApp {
   }
 
   addTodo({ title, description, dueDate, priority, completed = false } = {}) {
-    const activeProject = this.getActiveProject();
-    if (!activeProject) return false;
+    const project = this.getActiveProject();
+    if (!project) return false;
 
     const todo = new Todo(title, description, dueDate, priority, completed);
-    activeProject.addTodo(todo);
+    project.addTodo(todo);
   }
 
   updateTodo(todoId, updates) {
@@ -54,5 +54,19 @@ class todoApp {
       todo.update(updates);
       return true;
     } else return false;
+  }
+
+  toggleCompleteTodo(todoId) {
+    const project = this.getActiveProject();
+    const todo = project.getTodo(todoId);
+    if (todo) {
+      todo.toggleComplete();
+      return true;
+    } else return false;
+  }
+
+  deleteTodo(todoId) {
+    const project = this.getActiveProject();
+    project.deleteTodo(todoId);
   }
 }

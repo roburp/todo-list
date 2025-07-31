@@ -18,7 +18,7 @@ export default class Project {
       throw new Error("Invalid todo object");
     }
   }
-  removeTodo(todoId) {
+  deleteTodo(todoId) {
     this.todos = this.todos.filter((todo) => todo.id !== todoId);
   }
 
