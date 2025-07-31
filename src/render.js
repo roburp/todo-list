@@ -8,7 +8,6 @@ export function renderProjects(app) {
   projectList.innerHTML = "";
   app.getProjects().forEach((project) => {
     const li = document.createElement("li");
-    li.textContent = project.name;
     li.dataset.projectId = project.id; //data-project-id
 
     const name = document.createElement("span");

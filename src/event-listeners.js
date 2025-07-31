@@ -126,17 +126,16 @@ export function setupProjectItemListeners(li, app) {
   const deleteBtn = li.querySelector(".delete-btn");
 
   renameBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    // your rename logic here
+    e.stopPropagation(); // prevent other click handlers from running
     const newName = prompt("Enter new project name:");
     if (newName) {
-      app.updateProject(projectId, newName);
+      app.updateProject(projectId, { name: newName });
       renderProjects(app); // re-render after rename
     }
   });
 
   deleteBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
+    e.stopPropagation(); // prevent other click handlers from running
     if (confirm("Delete this project?")) {
       app.deleteProject(projectId);
       renderProjects(app); // re-render after deletion
