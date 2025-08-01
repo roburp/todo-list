@@ -28,6 +28,10 @@ export default class todoApp {
     this.activeProjectId = projectId;
   }
 
+  getActiveProjectId() {
+    return this.activeProjectId;
+  }
+
   getActiveProject() {
     return this.projects.find((project) => project.id === this.activeProjectId);
   }

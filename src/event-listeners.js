@@ -117,6 +117,10 @@ export function setupProjectItemListeners(li, app) {
   li.addEventListener("click", (e) => {
     // prevent triggering if clicked on rename or delete buttons
     if (e.target.closest(".rename-btn") || e.target.closest(".delete-btn")) return;
+    ////
+    document.querySelectorAll(".selected").forEach((el) => el.classList.remove("selected"));
+    void li.offsetHeight;
+    li.classList.add("selected");
 
     app.setActiveProject(projectId);
     renderTodos(app);

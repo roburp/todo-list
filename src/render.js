@@ -22,6 +22,10 @@ export function renderProjects(app) {
     deleteBtn.textContent = "❌";
     deleteBtn.classList.add("delete-btn");
 
+    if (project.id === app.getActiveProjectId()) {
+      li.classList.add("selected");
+    }
+
     li.append(name, renameBtn, deleteBtn);
 
     projectList.appendChild(li);

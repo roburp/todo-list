@@ -3,6 +3,7 @@ import Todo from "./todo.js";
 import Project from "./project.js";
 import { renderProjects, renderTodos } from "./render.js";
 import { setupProjectDialogListeners, setupTodoDialogListeners } from "./event-listeners.js";
+import "./styles.css";
 
 const app = new App();
 
