@@ -1,4 +1,4 @@
-import { setupProjectItemListeners } from "./event-listeners.js";
+import { setupProjectItemListeners, setupTodoDialogListeners, setupTodoItemListeners } from "./event-listeners.js";
 
 const projectList = document.querySelector("#project-list");
 const todoList = document.querySelector("#todo-list");
@@ -52,7 +52,36 @@ export function renderTodos(app) {
 
   todos.forEach((todo) => {
     const li = document.createElement("li");
-    li.textContent = todo.title + (todo.completed ? " ✅" : "");
+    li.dataset.todoId = todo.id; //data-todo-id
+    const todoTitle = document.createElement("p");
+    const todoDescription = document.createElement("p");
+    const todoDueDate = document.createElement("p");
+    const todoPriority = document.createElement("p");
+    const todoCompleted = document.createElement("button");
+
+    todoTitle.classList.add("todo-title");
+    todoDescription.classList.add("todo-description");
+    todoDueDate.classList.add("todo-due-date");
+    todoPriority.classList.add("todo-priority");
+    todoCompleted.classList.add("todo-completed");
+
+    todoTitle.textContent = todo.title;
+    todoDescription.textContent = todo.description;
+    todoDueDate.textContent = todo.dueDate.toLocaleDateString();
+    todoPriority.textContent = todo.priority;
+    todoCompleted.textContent = todo.completed ? "Completed" : "Not Completed"; //✅
+
+    li.append(todoTitle, todoDescription, todoDueDate, todoPriority, todoCompleted);
+
     todoList.appendChild(li);
+    setupTodoItemListeners(li, app);
+
+    // this.id = Date.now().toString();
+    //check this.title = title;
+    // this.description = description;
+    // this.priority = priority; //low, medium, high
+    // this.createdAt = new Date();
+    // this.dueDate = new Date(dueDate);
+    // this.completed = completed;
   });
 }

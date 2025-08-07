@@ -146,3 +146,13 @@ export function setupProjectItemListeners(li, app) {
     }
   });
 }
+
+export function setupTodoItemListeners(li, app) {
+  const todoId = li.dataset.todoId;
+
+  const toggleCompleteBtn = li.querySelector(".todo-completed");
+  toggleCompleteBtn.addEventListener("click", () => {
+    app.toggleCompleteTodo(todoId);
+    renderTodos(app);
+  });
+}
