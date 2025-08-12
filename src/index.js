@@ -2,7 +2,7 @@ import App from "./app.js";
 import Todo from "./todo.js";
 import Project from "./project.js";
 import { renderProjects, renderTodos } from "./render.js";
-import { setupProjectDialogListeners, setupTodoDialogListeners } from "./event-listeners.js";
+import { setupNewProjectListeners, setupNewTodoListeners } from "./event-listeners.js";
 import "./styles.css";
 
 const app = new App();
@@ -24,6 +24,6 @@ renderTodos(app);
 
 //load event listeners
 document.addEventListener("DOMContentLoaded", () => {
-  setupProjectDialogListeners(app);
-  setupTodoDialogListeners(app);
+  setupNewProjectListeners(app);
+  setupNewTodoListeners(app);
 });

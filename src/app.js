@@ -44,6 +44,12 @@ export default class todoApp {
     return this.projects;
   }
 
+  getTodoById(todoId) {
+    // flatten all todos from all projects into one array
+    // then find and return the todo with matching id;
+    return this.projects.flatMap((project) => project.todos).find((todo) => todo.id === todoId);
+  }
+
   addTodo({ title, description, dueDate, priority, completed = false } = {}) {
     const project = this.getActiveProject();
     if (!project) return false;

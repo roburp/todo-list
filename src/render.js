@@ -1,4 +1,4 @@
-import { setupProjectItemListeners, setupTodoDialogListeners, setupTodoItemListeners } from "./event-listeners.js";
+import { setupProjectItemListeners, setupTodoItemListeners } from "./event-listeners.js";
 
 const projectList = document.querySelector("#project-list");
 const todoList = document.querySelector("#todo-list");
@@ -57,21 +57,30 @@ export function renderTodos(app) {
     const todoDescription = document.createElement("p");
     const todoDueDate = document.createElement("p");
     const todoPriority = document.createElement("p");
-    const todoCompleted = document.createElement("button");
+    const todoUpdateBtn = document.createElement("button");
+    const todoDeleteBtn = document.createElement("button");
+    const todoCompletedBtn = document.createElement("button");
 
     todoTitle.classList.add("todo-title");
     todoDescription.classList.add("todo-description");
     todoDueDate.classList.add("todo-due-date");
     todoPriority.classList.add("todo-priority");
-    todoCompleted.classList.add("todo-completed");
+    todoUpdateBtn.classList.add("todo-update");
+    todoDeleteBtn.classList.add("todo-delete");
+    todoCompletedBtn.classList.add("todo-completed");
 
     todoTitle.textContent = todo.title;
     todoDescription.textContent = todo.description;
-    todoDueDate.textContent = todo.dueDate.toLocaleDateString();
-    todoPriority.textContent = todo.priority;
-    todoCompleted.textContent = todo.completed ? "Completed" : "Not Completed"; //✅
 
-    li.append(todoTitle, todoDescription, todoDueDate, todoPriority, todoCompleted);
+    todoDueDate.textContent = todo.dueDate.toLocaleDateString();
+    todoDueDate.dataset.date = todo.dueDate.toISOString().split("T")[0]; // YYYY-MM-DD
+
+    todoPriority.textContent = todo.priority;
+    todoUpdateBtn.textContent = "✏️";
+    todoDeleteBtn.textContent = "❌";
+    todoCompletedBtn.textContent = todo.completed ? "Completed" : "Not Completed"; //✅
+
+    li.append(todoTitle, todoDescription, todoDueDate, todoPriority, todoUpdateBtn, todoDeleteBtn, todoCompletedBtn);
 
     todoList.appendChild(li);
     setupTodoItemListeners(li, app);
