@@ -1,29 +1,30 @@
 import App from "./app.js";
-import Todo from "./todo.js";
-import Project from "./project.js";
 import { renderProjects, renderTodos } from "./render.js";
 import { setupNewProjectListeners, setupNewTodoListeners } from "./event-listeners.js";
+import { loadProjects } from "./storage.js";
 import "./styles.css";
 
 const app = new App();
+app.projects = loadProjects();
 
 // TEST
-app.addProject("Sample Project");
-app.setActiveProject(app.getProjects()[0].id);
-app.addTodo({
-  title: "Test Todo",
-  description: "Just testing",
-  dueDate: new Date().toISOString(),
-  priority: "medium",
-});
+// app.addProject("Sample Project");
+// app.setActiveProject(app.getProjects()[0].id);
+// app.addTodo({
+//   title: "Test Todo",
+//   description: "Just testing",
+//   dueDate: new Date().toISOString(),
+//   priority: "medium",
+// });
 // END TEST
-
-// Render initially
-renderProjects(app);
-renderTodos(app);
 
 //load event listeners
 document.addEventListener("DOMContentLoaded", () => {
+  // initial render
+  renderProjects(app);
+  renderTodos(app);
+
+  // set up event listeners
   setupNewProjectListeners(app);
   setupNewTodoListeners(app);
 });

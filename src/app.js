@@ -1,5 +1,6 @@
 import Todo from "./todo.js";
 import Project from "./project.js";
+import { saveProjects } from "./storage.js";
 
 export default class todoApp {
   constructor() {
@@ -10,18 +11,21 @@ export default class todoApp {
   addProject(name) {
     const project = new Project(name);
     this.projects.push(project);
+    saveProjects(this.projects);
   }
 
   updateProject(projectId, { name } = {}) {
     const project = this.getProject(projectId);
     if (project) {
       if (name !== undefined) project.name = name;
+      saveProjects(this.projects);
       return true;
     } else return false;
   }
 
   deleteProject(projectId) {
     this.projects = this.projects.filter((project) => project.id !== projectId);
+    saveProjects(this.projects);
   }
 
   setActiveProject(projectId) {
@@ -56,6 +60,7 @@ export default class todoApp {
 
     const todo = new Todo(title, description, dueDate, priority, completed);
     project.addTodo(todo);
+    saveProjects(this.projects);
     return todo;
   }
 
@@ -63,6 +68,7 @@ export default class todoApp {
     const todo = this.getActiveProject().getTodo(todoId);
     if (todo) {
       todo.update(updates);
+      saveProjects(this.projects);
       return true;
     } else return false;
   }
@@ -74,6 +80,7 @@ export default class todoApp {
     const todo = project.getTodo(todoId);
     if (todo) {
       todo.toggleComplete();
+      saveProjects(this.projects);
       return true;
     } else return false;
   }
@@ -82,7 +89,9 @@ export default class todoApp {
     const project = this.getActiveProject();
     if (!project) return false;
 
-    return project.deleteTodo(todoId);
+    const deleted = project.deleteTodo(todoId);
+    saveProjects(this.projects);
+    return deleted;
   }
 
   getActiveTodos() {
