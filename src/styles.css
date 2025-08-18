@@ -20,6 +20,16 @@ header {
   padding: 20px;
 }
 
+dialog {
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: white;
+}
+
 aside {
   grid-area: sidebar;
   background-color: #f1f1f1;
@@ -49,6 +59,10 @@ button#new-project {
   transition: background-color 0.3s ease;
 }
 
+button#new-project:hover {
+  background-color: #71b4e0;
+}
+
 ul#project-list {
   list-style: none;
 }
@@ -75,18 +89,105 @@ main {
   grid-area: main;
 }
 
-ul#todo-list {
-  list-style: none;
+#project-title {
+  margin: 15px 0 0 10px;
+  font-size: 2rem;
+  font-weight: bold;
 }
 
-/* 
-dialog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 1rem;
+button#new-todo {
+  font-size: 0.8rem;
+  padding: 8px;
+  background-color: #4a9fd8;
+  color: #fff;
   border: none;
-  border-radius: 8px;
-  background: white;
-} */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 5px 0 0 15px;
+}
+
+button#new-todo:hover {
+  background-color: #71b4e0;
+}
+
+ul#todo-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+ul#todo-list li {
+  position: relative;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  order: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+ul#todo-list li:hover {
+  background-color: #d0dfeb;
+}
+
+ul#todo-list li.completed {
+  opacity: 0.6; /* fade it out */
+  background-color: #e0e0e0; /* grey background */
+  text-decoration: line-through;
+
+  order: 1;
+}
+
+ul#todo-list li .todo-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+ul#todo-list li .todo-description {
+  font-size: 0.9rem;
+  color: #363636;
+  margin-bottom: 1rem;
+}
+
+ul#todo-list li .due-priority {
+  border-top: 1px solid lightgrey;
+  display: flex;
+  margin-top: auto;
+  align-items: baseline;
+  padding: 0.5rem 0.3rem 0.2rem 0.3rem;
+  justify-content: space-between;
+}
+
+ul#todo-list li .todo-due-date {
+  font-size: 0.9rem;
+  color: #363636;
+  margin-bottom: 0;
+}
+
+ul#todo-list li .todo-priority {
+  font-size: 0.9rem;
+  color: #363636;
+  padding-left: 1.2rem;
+}
+
+ul#todo-list li .todo-actions {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  display: flex;
+  gap: 0.3rem; /* spacing between buttons */
+}
+
+/*     todoTitle.classList.add("todo-title");
+    todoDescription.classList.add("todo-description");
+    todoDueDate.classList.add("todo-due-date");
+    todoPriority.classList.add("todo-priority");
+    todoUpdateBtn.classList.add("todo-update");
+    todoDeleteBtn.classList.add("todo-delete");
+    todoCompletedBtn.classList.add("todo-completed"); */

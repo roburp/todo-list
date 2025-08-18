@@ -41,23 +41,24 @@
       <ul id="project-list"></ul>
     </aside>
     <main>
-      <h2 id="project-title"></h2>
+      <div class="project-header">
+        <h2 id="project-title"></h2>
+        <button id="new-todo">+ Add Todo</button>
+      </div>
       <div class="todo-cards">
-        <button id="new-todo">Add Todo</button>
-
         <dialog id="todo-dialog">
           <form id="todo-form">
             <label for="todo-title">Title:</label>
-            <input type="text" id="todo-title" name="todo-title" required />
+            <input type="text" id="todo-title" name="title" required />
 
             <label for="todo-description">Description:</label>
-            <input type="text" id="todo-description" name="todo-description" />
+            <input type="text" id="todo-description" name="description" />
 
             <label for="todo-due-date">Due Date:</label>
-            <input type="date" id="todo-due-date" name="todo-due-date" required />
+            <input type="date" id="todo-due-date" name="dueDate" required />
 
             <label for="todo-priority">Priority:</label>
-            <select id="todo-priority" name="todo-priority">
+            <select id="todo-priority" name="priority">
               <option value="low">Low</option>
               <option value="medium">Medium</option>
               <option value="high">High</option>
@@ -72,16 +73,16 @@
         <dialog id="todo-update-dialog">
           <form id="todo-update-form">
             <label for="todo-update-title">Title:</label>
-            <input type="text" id="todo-update-title" name="todo-update-title" required />
+            <input type="text" id="todo-update-title" name="title" required />
 
             <label for="todo-update-description">Description:</label>
-            <input type="text" id="todo-update-description" name="todo-update-description" />
+            <input type="text" id="todo-update-description" name="description" />
 
             <label for="todo-update-due-date">Due Date:</label>
-            <input type="date" id="todo-update-due-date" name="todo-update-due-date" required />
+            <input type="date" id="todo-update-due-date" name="dueDate" required />
 
             <label for="todo-update-priority">Priority:</label>
-            <select id="todo-update-priority" name="todo-update-priority">
+            <select id="todo-update-priority" name="priority">
               <option value="low">Low</option>
               <option value="medium">Medium</option>
               <option value="high">High</option>

@@ -1,5 +1,5 @@
 import { renderProjects, renderTodos } from "./render";
-import { formatDateForInput, parseDateFromInput, formatDateForDisplay, isOverdue } from "./dateUtils.js";
+import { openUpdateTodoDialog, currentTodoId } from "./dialog.js";
 
 export function setupNewProjectListeners(app) {
   const newProjBtn = document.querySelector("#new-project");
@@ -73,45 +73,48 @@ export function setupNewTodoListeners(app) {
   });
 
   submit.addEventListener("click", (e) => {
+    e.preventDefault();
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
 
-    e.preventDefault();
+    const { title, description, dueDate, priority } = form.elements;
+    const dueDateValue = new Date(dueDate.value);
 
-    const titleField = document.querySelector("#todo-title");
-    //const descriptionField = document.querySelector("#todo-description");
-    const dueDateField = document.querySelector("#todo-due-date");
-    //const priorityField = document.querySelector("#todo-priority");
-
-    const title = document.querySelector("#todo-title").value.trim();
-    const description = document.querySelector("#todo-description").value.trim();
-    const dueDate = new Date(document.querySelector("#todo-due-date").value);
-    const priority = document.querySelector("#todo-priority").value;
-
-    if (!title) {
-      alert("Please enter a todo title.");
-      titleField.focus();
-      titleField.select();
-      return;
-    }
-
-    if (!dueDate) {
-      alert("Please enter a due date.");
-      dueDateField.focus();
-      dueDateField.select();
-      return;
-    }
-
-    if (dueDate < new Date()) {
+    if (dueDateValue < new Date()) {
       alert("Please enter a future due date.");
-      dueDateField.focus();
-      dueDateField.select();
+      dueDate.focus();
+      dueDate.select();
       return;
     }
 
-    app.addTodo({ title, description, dueDate, priority, completed: false });
+    app.addTodo({
+      title: title.value.trim(),
+      description: description.value.trim(),
+      dueDate: new Date(dueDate.value),
+      priority: priority.value,
+      completed: false,
+    });
+
+    // const titleField = document.querySelector("#todo-title");
+    // //const descriptionField = document.querySelector("#todo-description");
+    // const dueDateField = document.querySelector("#todo-due-date");
+    // //const priorityField = document.querySelector("#todo-priority");
+
+    // const title = document.querySelector("#todo-title").value.trim();
+    // const description = document.querySelector("#todo-description").value.trim();
+    // const dueDate = new Date(document.querySelector("#todo-due-date").value);
+    // const priority = document.querySelector("#todo-priority").value;
+
+    // if (dueDate < new Date()) {
+    //   alert("Please enter a future due date.");
+    //   dueDateField.focus();
+    //   dueDateField.select();
+    //   return;
+    // }
+
+    // app.addTodo({ title, description, dueDate, priority, completed: false });
     renderTodos(app);
 
     form.reset();
@@ -148,6 +151,7 @@ export function setupProjectItemListeners(li, app) {
     const projectName = document.querySelector("#project-update-name");
     dialog.showModal();
 
+    dialog.dataset.projectId = projectId;
     projectName.value = project.name;
   });
 
@@ -157,7 +161,10 @@ export function setupProjectItemListeners(li, app) {
       form.reportValidity();
       return;
     }
+
     const name = document.querySelector("#project-update-name").value;
+    const projectId = dialog.dataset.projectId;
+
     app.updateProject(projectId, { name });
     renderProjects(app);
     dialog.close();
@@ -173,6 +180,7 @@ export function setupProjectItemListeners(li, app) {
     if (confirm("Delete this project?")) {
       app.deleteProject(projectId);
       renderProjects(app); // re-render after deletion
+      renderTodos(app);
     }
   });
 
@@ -186,52 +194,24 @@ export function setupProjectItemListeners(li, app) {
 
 export function setupTodoItemListeners(li, app) {
   const todoId = li.dataset.todoId;
-  const toggleCompleteBtn = li.querySelector(".todo-completed");
-  const updateTodoModal = li.querySelector(".todo-update");
+
+  const todoItem = li;
   const deleteTodoBtn = li.querySelector(".todo-delete");
   const form = document.querySelector("#todo-update-form");
   const dialog = document.querySelector("#todo-update-dialog");
-  const updateTodo = document.querySelector("#todo-update-btn");
-  const cancel = document.querySelector("#todo-update-cancel-btn");
+  // const updateTodoBtn = document.querySelector("#todo-update-btn");
+  const cancelBtn = document.querySelector("#todo-update-cancel-btn");
+  const toggleCompleteCheckbox = li.querySelector(".todo-completed");
 
-  toggleCompleteBtn.addEventListener("click", () => {
-    app.toggleCompleteTodo(todoId);
-    renderTodos(app);
-  });
+  todoItem.addEventListener("click", (e) => {
+    if (e.target.closest(".todo-actions")) return;
 
-  updateTodoModal.addEventListener("click", () => {
     const todo = app.getTodoById(todoId);
-    const title = document.querySelector("#todo-update-title");
-    const description = document.querySelector("#todo-update-description");
-    const dueDate = document.querySelector("#todo-update-due-date");
-    const priority = document.querySelector("#todo-update-priority");
-
-    dialog.showModal();
-
-    title.value = todo.title;
-    description.value = todo.description;
-    dueDate.value = formatDateForInput(todo.dueDate);
-    priority.value = todo.priority;
-    renderTodos(app);
+    openUpdateTodoDialog(todo); //from dialog.js
+    // update todo button in separate setup function
   });
 
-  updateTodo.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
-    }
-    const title = document.querySelector("#todo-update-title").value;
-    const description = document.querySelector("#todo-update-description").value;
-    const dueDate = new Date(document.querySelector("#todo-update-due-date").value);
-    const priority = document.querySelector("#todo-update-priority").value;
-    app.updateTodo(todoId, { title, description, dueDate, priority });
-    renderTodos(app);
-    form.reset();
-    dialog.close();
-  });
-
-  cancel.addEventListener("click", () => {
+  cancelBtn.addEventListener("click", () => {
     form.reset();
     dialog.close();
   });
@@ -243,10 +223,53 @@ export function setupTodoItemListeners(li, app) {
     }
   });
 
-  deleteTodoBtn.addEventListener("click", () => {
+  deleteTodoBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
     if (confirm("Delete this todo?")) {
       app.deleteTodo(todoId);
       renderTodos(app);
     }
+  });
+
+  toggleCompleteCheckbox.addEventListener("change", (e) => {
+    e.stopPropagation();
+    app.toggleCompleteTodo(todoId);
+    renderTodos(app);
+  });
+}
+
+export function setupUpdateTodoItemListener(app) {
+  const updateTodoBtn = document.querySelector("#todo-update-btn");
+  const form = document.querySelector("#todo-update-form");
+  const dialog = document.querySelector("#todo-update-dialog");
+
+  updateTodoBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const { title, description, dueDate, priority } = form.elements;
+    const dueDateValue = new Date(dueDate.value);
+
+    if (dueDateValue < new Date()) {
+      alert("Please enter a future due date.");
+      dueDate.focus();
+      dueDate.select();
+      return;
+    }
+
+    // currentTodoId from dialog.js
+    app.updateTodo(currentTodoId, {
+      title: title.value,
+      description: description.value,
+      dueDate: new Date(dueDate.value),
+      priority: priority.value,
+    });
+
+    renderTodos(app);
+    form.reset();
+    dialog.close();
   });
 }
