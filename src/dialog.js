@@ -1,8 +1,7 @@
 import { formatDateForInput } from "./dateUtils.js";
-import { setupTodoItemListeners } from "./event-listeners.js";
 // dialog helper function/s
 
-export let currentTodoId = null;
+let currentTodoId = null;
 
 export function openUpdateTodoDialog(todo) {
   currentTodoId = todo.id;

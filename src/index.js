@@ -1,6 +1,6 @@
 import App from "./app.js";
 import { renderProjects, renderTodos } from "./render.js";
-import { setupNewProjectListeners, setupNewTodoListeners, setupUpdateTodoItemListener } from "./event-listeners.js";
+import { setupNewProjectListeners, setupNewTodoListeners } from "./event-listeners.js";
 import { loadProjects } from "./storage.js";
 import "./styles.css";
 
@@ -27,5 +27,4 @@ document.addEventListener("DOMContentLoaded", () => {
   // set up event listeners
   setupNewProjectListeners(app);
   setupNewTodoListeners(app);
-  setupUpdateTodoItemListener(app);
 });

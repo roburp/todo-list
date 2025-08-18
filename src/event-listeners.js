@@ -1,5 +1,5 @@
 import { renderProjects, renderTodos } from "./render";
-import { openUpdateTodoDialog, currentTodoId } from "./dialog.js";
+import { openUpdateTodoDialog } from "./dialog.js";
 
 export function setupNewProjectListeners(app) {
   const newProjBtn = document.querySelector("#new-project");
@@ -53,14 +53,14 @@ export function setupNewTodoListeners(app) {
   const newTodoBtn = document.querySelector("#new-todo");
   const dialog = document.querySelector("#todo-dialog");
   const form = document.querySelector("#todo-form");
-  const cancel = document.querySelector("#todo-cancel-btn");
-  const submit = document.querySelector("#todo-add-btn");
+  const cancelBtn = document.querySelector("#todo-cancel-btn");
+  const submitBtn = document.querySelector("#todo-add-btn");
 
   newTodoBtn.addEventListener("click", () => {
     dialog.showModal();
   });
 
-  cancel.addEventListener("click", () => {
+  cancelBtn.addEventListener("click", () => {
     form.reset();
     dialog.close();
   });
@@ -72,7 +72,7 @@ export function setupNewTodoListeners(app) {
     }
   });
 
-  submit.addEventListener("click", (e) => {
+  submitBtn.addEventListener("click", (e) => {
     e.preventDefault();
     if (!form.checkValidity()) {
       form.reportValidity();
@@ -97,24 +97,6 @@ export function setupNewTodoListeners(app) {
       completed: false,
     });
 
-    // const titleField = document.querySelector("#todo-title");
-    // //const descriptionField = document.querySelector("#todo-description");
-    // const dueDateField = document.querySelector("#todo-due-date");
-    // //const priorityField = document.querySelector("#todo-priority");
-
-    // const title = document.querySelector("#todo-title").value.trim();
-    // const description = document.querySelector("#todo-description").value.trim();
-    // const dueDate = new Date(document.querySelector("#todo-due-date").value);
-    // const priority = document.querySelector("#todo-priority").value;
-
-    // if (dueDate < new Date()) {
-    //   alert("Please enter a future due date.");
-    //   dueDateField.focus();
-    //   dueDateField.select();
-    //   return;
-    // }
-
-    // app.addTodo({ title, description, dueDate, priority, completed: false });
     renderTodos(app);
 
     form.reset();
@@ -197,30 +179,71 @@ export function setupTodoItemListeners(li, app) {
 
   const todoItem = li;
   const deleteTodoBtn = li.querySelector(".todo-delete");
-  const form = document.querySelector("#todo-update-form");
-  const dialog = document.querySelector("#todo-update-dialog");
-  // const updateTodoBtn = document.querySelector("#todo-update-btn");
-  const cancelBtn = document.querySelector("#todo-update-cancel-btn");
   const toggleCompleteCheckbox = li.querySelector(".todo-completed");
 
   todoItem.addEventListener("click", (e) => {
     if (e.target.closest(".todo-actions")) return;
 
     const todo = app.getTodoById(todoId);
-    openUpdateTodoDialog(todo); //from dialog.js
-    // update todo button in separate setup function
-  });
+    const dialog = document.querySelector("#todo-update-dialog");
+    const form = document.querySelector("#todo-update-form");
+    const updateBtn = document.querySelector("#todo-update-btn");
+    const cancelBtn = document.querySelector("#todo-update-cancel-btn");
 
-  cancelBtn.addEventListener("click", () => {
-    form.reset();
-    dialog.close();
-  });
+    // open and populate the dialog
+    openUpdateTodoDialog(todo);
 
-  dialog.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
+    const onUpdate = (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const { title, description, dueDate, priority } = form.elements;
+      const dueDateValue = new Date(dueDate.value);
+
+      if (dueDateValue < new Date()) {
+        alert("Please enter a future due date.");
+        dueDate.focus();
+        dueDate.select();
+        return;
+      }
+
+      app.updateTodo(todoId, {
+        title: title.value,
+        description: description.value,
+        dueDate: dueDateValue,
+        priority: priority.value,
+      });
+
+      renderTodos(app);
       form.reset();
       dialog.close();
-    }
+
+      // remove listener so it doesn't accumulate on multiple opens
+      updateBtn.removeEventListener("click", onUpdate);
+    };
+    // attaches onUpdate to the update button when todo item is pressed and dialog opens
+    updateBtn.addEventListener("click", onUpdate);
+
+    cancelBtn.addEventListener("click", () => {
+      form.reset();
+      dialog.close();
+      updateBtn.removeEventListener("click", onUpdate);
+    });
+
+    dialog.addEventListener(
+      "keydown",
+      (e) => {
+        if (e.key === "Escape") {
+          form.reset();
+          dialog.close();
+          updateBtn.removeEventListener("click", onUpdate);
+        }
+      },
+      { once: true }
+    );
   });
 
   deleteTodoBtn.addEventListener("click", (e) => {
@@ -235,41 +258,5 @@ export function setupTodoItemListeners(li, app) {
     e.stopPropagation();
     app.toggleCompleteTodo(todoId);
     renderTodos(app);
-  });
-}
-
-export function setupUpdateTodoItemListener(app) {
-  const updateTodoBtn = document.querySelector("#todo-update-btn");
-  const form = document.querySelector("#todo-update-form");
-  const dialog = document.querySelector("#todo-update-dialog");
-
-  updateTodoBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
-    }
-
-    const { title, description, dueDate, priority } = form.elements;
-    const dueDateValue = new Date(dueDate.value);
-
-    if (dueDateValue < new Date()) {
-      alert("Please enter a future due date.");
-      dueDate.focus();
-      dueDate.select();
-      return;
-    }
-
-    // currentTodoId from dialog.js
-    app.updateTodo(currentTodoId, {
-      title: title.value,
-      description: description.value,
-      dueDate: new Date(dueDate.value),
-      priority: priority.value,
-    });
-
-    renderTodos(app);
-    form.reset();
-    dialog.close();
   });
 }
