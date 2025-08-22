@@ -9,6 +9,7 @@ export function setupNewProjectListeners(app) {
   const submit = document.querySelector("#project-add-btn");
 
   newProjBtn.addEventListener("click", () => {
+    form.reset();
     dialog.showModal();
   });
 
@@ -57,6 +58,7 @@ export function setupNewTodoListeners(app) {
   const submitBtn = document.querySelector("#todo-add-btn");
 
   newTodoBtn.addEventListener("click", () => {
+    form.reset();
     dialog.showModal();
   });
 
@@ -131,6 +133,7 @@ export function setupProjectItemListeners(li, app) {
 
     const project = app.getProject(projectId);
     const projectName = document.querySelector("#project-update-name");
+    form.reset();
     dialog.showModal();
 
     dialog.dataset.projectId = projectId;

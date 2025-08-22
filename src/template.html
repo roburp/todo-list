@@ -11,29 +11,34 @@
     </header>
     <aside class="sidebar">
       <div class="sidebar-header">
-        <h3>Projects</h3>
+        <h2>Projects</h2>
         <button id="new-project">New Project</button>
       </div>
       <dialog id="project-dialog">
         <form id="project-form">
-          <label for="project-name">Project Name:</label>
-          <input type="text" id="project-name" name="project-name" required />
-
+          <h2>Add New Project</h2>
+          <div class="form-group">
+            <label for="project-name">Project Name:</label>
+            <input type="text" id="project-name" name="project-name" required />
+          </div>
           <menu>
-            <button type="submit" id="project-add-btn">Add</button>
             <button type="button" id="project-cancel-btn">Cancel</button>
+            <button type="submit" id="project-add-btn">Add</button>
           </menu>
         </form>
       </dialog>
 
       <dialog id="project-update-dialog">
         <form id="project-update-form">
-          <label for="project-update-name">Project Name:</label>
-          <input type="text" id="project-update-name" name="project-update-name" required />
+          <h2>Update Project</h2>
+          <div class="form-group">
+            <label for="project-update-name">Project Name:</label>
+            <input type="text" id="project-update-name" name="project-update-name" required />
+          </div>
 
           <menu>
-            <button type="submit" id="project-update-btn">Update</button>
             <button type="button" id="project-update-cancel-btn">Cancel</button>
+            <button type="submit" id="project-update-btn">Update</button>
           </menu>
         </form>
       </dialog>
@@ -48,11 +53,12 @@
       <div class="todo-cards">
         <dialog id="todo-dialog">
           <form id="todo-form">
+            <h2>Add New Todo</h2>
             <label for="todo-title">Title:</label>
             <input type="text" id="todo-title" name="title" required />
 
             <label for="todo-description">Description:</label>
-            <input type="text" id="todo-description" name="description" />
+            <textarea id="todo-description" name="description" rows="4"></textarea>
 
             <label for="todo-due-date">Due Date:</label>
             <input type="date" id="todo-due-date" name="dueDate" required />
@@ -64,19 +70,20 @@
               <option value="high">High</option>
             </select>
             <menu>
-              <button type="submit" id="todo-add-btn">Add</button>
               <button type="button" id="todo-cancel-btn">Cancel</button>
+              <button type="submit" id="todo-add-btn">Add</button>
             </menu>
           </form>
         </dialog>
 
         <dialog id="todo-update-dialog">
           <form id="todo-update-form">
+            <h2>Update Todo</h2>
             <label for="todo-update-title">Title:</label>
             <input type="text" id="todo-update-title" name="title" required />
 
             <label for="todo-update-description">Description:</label>
-            <input type="text" id="todo-update-description" name="description" />
+            <textarea id="todo-update-description" name="description" rows="4"></textarea>
 
             <label for="todo-update-due-date">Due Date:</label>
             <input type="date" id="todo-update-due-date" name="dueDate" required />
@@ -88,8 +95,8 @@
               <option value="high">High</option>
             </select>
             <menu>
-              <button type="submit" id="todo-update-btn">Update</button>
               <button type="button" id="todo-update-cancel-btn">Cancel</button>
+              <button type="submit" id="todo-update-btn">Update</button>
             </menu>
           </form>
         </dialog>

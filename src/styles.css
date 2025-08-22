@@ -21,13 +21,11 @@ header {
 }
 
 dialog {
-  top: 15%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   padding: 1rem;
   border: none;
   border-radius: 8px;
   background: white;
+  margin: auto;
 }
 
 aside {
@@ -42,10 +40,6 @@ aside {
   align-items: center;
   padding-right: 10px;
   margin-bottom: 15px;
-}
-
-h3 {
-  font-size: 1.4rem;
 }
 
 button#new-project {
@@ -74,6 +68,7 @@ ul#project-list li {
   transition: background-color 0.3s ease;
   border-radius: 5px;
   font-size: 1.1rem;
+  display: flex;
 }
 
 ul#project-list li:hover {
@@ -85,8 +80,10 @@ ul#project-list li.selected {
   color: #fff;
 }
 
-main {
-  grid-area: main;
+.menu-group {
+  margin-left: auto;
+  display: flex;
+  gap: 5px;
 }
 
 #project-title {
@@ -140,7 +137,7 @@ ul#todo-list li.completed {
   background-color: #e0e0e0; /* grey background */
   text-decoration: line-through;
 
-  order: 1;
+  order: 1; /* move it to the end */
 }
 
 ul#todo-list li .todo-title {
@@ -184,10 +181,74 @@ ul#todo-list li .todo-actions {
   gap: 0.3rem; /* spacing between buttons */
 }
 
-/*     todoTitle.classList.add("todo-title");
-    todoDescription.classList.add("todo-description");
-    todoDueDate.classList.add("todo-due-date");
-    todoPriority.classList.add("todo-priority");
-    todoUpdateBtn.classList.add("todo-update");
-    todoDeleteBtn.classList.add("todo-delete");
-    todoCompletedBtn.classList.add("todo-completed"); */
+ul#todo-list li .todo-actions input[type="checkbox"] {
+  transform: scale(1.1);
+}
+
+ul#todo-list li .todo-actions button,
+ul#todo-list li .todo-actions input[type="checkbox"] {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+ul#todo-list li .todo-actions button:hover,
+ul#todo-list li .todo-actions input[type="checkbox"]:hover {
+  transform: scale(1.2);
+}
+
+form h2 {
+  margin-bottom: 0.5rem;
+}
+
+form#project-form,
+form#project-update-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 110px;
+  height: auto;
+}
+
+form#project-form .form-group,
+form#project-update-form .form-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+form label:not(:first-of-type) {
+  margin-top: 0.5rem;
+}
+
+form#todo-form,
+form#todo-update-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 380px;
+  height: auto;
+  width: 450px;
+}
+
+input {
+  padding: 0.1rem;
+}
+
+form#todo-form textarea,
+form#todo-update-form textarea {
+  resize: vertical; /* allow user to drag vertically only */
+  min-height: 4rem;
+  padding: 0.1rem;
+}
+
+menu {
+  margin-left: auto;
+  margin-top: auto;
+}
+menu button {
+  margin-bottom: 0.4rem;
+  margin-left: 0.4rem;
+  width: 50px;
+}

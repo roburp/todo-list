@@ -14,6 +14,9 @@ export function renderProjects(app) {
     name.textContent = project.name;
     name.classList.add("project-name");
 
+    const menuGroup = document.createElement("div");
+    menuGroup.classList.add("menu-group");
+
     const renameBtn = document.createElement("button");
     renameBtn.textContent = "✏️";
     renameBtn.classList.add("rename-btn");
@@ -26,9 +29,10 @@ export function renderProjects(app) {
       li.classList.add("selected");
     }
 
-    li.append(name, renameBtn, deleteBtn);
+    menuGroup.append(renameBtn, deleteBtn);
+    li.append(name, menuGroup);
 
-    projectList.appendChild(li);
+    projectList.append(li);
     setupProjectItemListeners(li, app);
   });
 
