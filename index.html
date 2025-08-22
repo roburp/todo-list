@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+  <script defer src="main.js"></script></head>
+  <body>
+    <header>
+      <h1>Todo List</h1>
+    </header>
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>Projects</h2>
+        <button id="new-project">New Project</button>
+      </div>
+      <dialog id="project-dialog">
+        <form id="project-form">
+          <h2>Add New Project</h2>
+          <div class="form-group">
+            <label for="project-name">Project Name:</label>
+            <input type="text" id="project-name" name="project-name" required />
+          </div>
+          <menu>
+            <button type="button" id="project-cancel-btn">Cancel</button>
+            <button type="submit" id="project-add-btn">Add</button>
+          </menu>
+        </form>
+      </dialog>
+
+      <dialog id="project-update-dialog">
+        <form id="project-update-form">
+          <h2>Update Project</h2>
+          <div class="form-group">
+            <label for="project-update-name">Project Name:</label>
+            <input type="text" id="project-update-name" name="project-update-name" required />
+          </div>
+
+          <menu>
+            <button type="button" id="project-update-cancel-btn">Cancel</button>
+            <button type="submit" id="project-update-btn">Update</button>
+          </menu>
+        </form>
+      </dialog>
+
+      <ul id="project-list"></ul>
+    </aside>
+    <main>
+      <div class="project-header">
+        <h2 id="project-title"></h2>
+        <button id="new-todo">+ Add Todo</button>
+      </div>
+      <div class="todo-cards">
+        <dialog id="todo-dialog">
+          <form id="todo-form">
+            <h2>Add New Todo</h2>
+            <label for="todo-title">Title:</label>
+            <input type="text" id="todo-title" name="title" required />
+
+            <label for="todo-description">Description:</label>
+            <textarea id="todo-description" name="description" rows="4"></textarea>
+
+            <label for="todo-due-date">Due Date:</label>
+            <input type="date" id="todo-due-date" name="dueDate" required />
+
+            <label for="todo-priority">Priority:</label>
+            <select id="todo-priority" name="priority">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+            <menu>
+              <button type="button" id="todo-cancel-btn">Cancel</button>
+              <button type="submit" id="todo-add-btn">Add</button>
+            </menu>
+          </form>
+        </dialog>
+
+        <dialog id="todo-update-dialog">
+          <form id="todo-update-form">
+            <h2>Update Todo</h2>
+            <label for="todo-update-title">Title:</label>
+            <input type="text" id="todo-update-title" name="title" required />
+
+            <label for="todo-update-description">Description:</label>
+            <textarea id="todo-update-description" name="description" rows="4"></textarea>
+
+            <label for="todo-update-due-date">Due Date:</label>
+            <input type="date" id="todo-update-due-date" name="dueDate" required />
+
+            <label for="todo-update-priority">Priority:</label>
+            <select id="todo-update-priority" name="priority">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+            <menu>
+              <button type="button" id="todo-update-cancel-btn">Cancel</button>
+              <button type="submit" id="todo-update-btn">Update</button>
+            </menu>
+          </form>
+        </dialog>
+
+        <ul id="todo-list">
+          <li>Todo 1</li>
+        </ul>
+      </div>
+    </main>
+  </body>
+</html>
