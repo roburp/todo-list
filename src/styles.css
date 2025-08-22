@@ -10,6 +10,7 @@ body {
     "sidebar main";
   grid-template-columns: 1fr 6fr;
   grid-template-rows: auto 1fr;
+  height: 100vh;
 }
 
 header {
@@ -32,6 +33,7 @@ aside {
   grid-area: sidebar;
   background-color: #f1f1f1;
   padding: 10px;
+  height: 100%;
 }
 
 .sidebar-header {
